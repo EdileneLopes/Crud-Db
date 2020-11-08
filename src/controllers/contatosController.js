@@ -33,13 +33,26 @@ const getAll = (request, response) => {
     })
 }
  
-
-
+const getPorNome = (request, response) => {
+    const nome = request.params.nome
+    contatosCollection.find({nome: nome}, (error, contato) => {
+        if(error){
+            return response.status(500).send(error)
+        }else if (contato == "") {
+            return response.status(400).json({
+                mensagem: 'Ops contato não encontrado!',
+            })
+        } else {
+            return response.status(200).send(contato)
+        }
+    })
+}
 
 
 
 module.exports = {
     getAll,
-    addContato
+    addContato,
+    getPorNome
     
 }
