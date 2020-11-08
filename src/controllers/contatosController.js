@@ -48,11 +48,28 @@ const getPorNome = (request, response) => {
     })
 }
 
+const getPorId = (request, response) => {
+    const idParam = request.params.id
+    contatosCollection.findById( idParam, (error, contato) => {
+        if(error){
+            return response.status(500).send(error)
+        } else {
+            if(contato){
+                return response.status(200).send(contato)
+            }else {
+                return response.status(404).json({
+                    mensagem: 'Contato não encontrado :('
+                })//arrumar o erro quando não encontrado...
+            }
+        }
+    })
+}
 
 
 module.exports = {
     getAll,
     addContato,
-    getPorNome
+    getPorNome,
+    getPorId
     
 }

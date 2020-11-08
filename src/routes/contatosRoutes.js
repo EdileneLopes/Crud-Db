@@ -22,10 +22,20 @@ router.post('/criar', controller.addContato)
 
 /**
 @route GET contato
+@param : nome
 @desc Retorna um contato pelo nome
 @access Public 
-@endpoint http://localhost:porta/contatos/nome
+@endpoint http://localhost:porta/contatos/nome/nome
 **/
 router.get('/nome/:nome', controller.getPorNome)
+
+/**
+@route GET contato
+@param : id
+@desc Retorna um contato pelo id
+@access Public 
+@endpoint http://localhost:porta/contatos/id/id
+**/
+router.get('/id/:id', controller.getPorId)
 
 module.exports = router
