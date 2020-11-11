@@ -38,4 +38,17 @@ router.get('/nome/:nome', controller.getPorNome)
 **/
 router.get('/id/:id', controller.getPorId)
 
+
+/**
+@route PATCH contato
+@param : id
+@desc Busca por id e atualiza o telefone do contato
+@access Public 
+@endpoint http://localhost:porta/contatos/atualizar/id
+**/
+router.patch('/atualizar/telefone/:id', controller.atualizaFone)
+
+
+
+
 module.exports = router

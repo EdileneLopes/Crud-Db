@@ -7,8 +7,8 @@ const getAll = (request, response) => {
         if(error){
             return response.status(500).send(error)
         } else{
-            return response.status(200).json({
-                mensagem: 'Tudo certo',
+            return response.status(200).send({
+                mensagem: 'GET com sucesso',
                 contatos
             })
         }
@@ -18,9 +18,7 @@ const getAll = (request, response) => {
   const addContato = (request, response) => {
      console.log(request.url)
     const contatoDoBody = request.body //pegando o que o usuário digitou
-    console.log('o que veio do body', contatoDoBody)
     const contato = new contatosCollection(contatoDoBody)
-    console.log('variável contato: ', contato)
     contato.save((error) => {
         if(error){
             return response.status(400).send(error)
@@ -65,11 +63,32 @@ const getPorId = (request, response) => {
     })
 }
 
+const atualizaFone = (request, response) => {
+    const idParam = request.params.id
+    const contatoBody = request.body
+    const novo = {new : true}
+
+    contatosCollection.findByIdAndUpdate(idParam, {$set:contatoBody}, novo, (error, contato) => {
+        if(error){
+                return response.status(500).send(error)
+            }else if(contato){
+                return response.status(200).send(contato)
+            }else {
+                return response.status(404).json({
+                    mensagem: 'Contato não encontrado, não foi possível atualizar' //não deu certo a msg de erro...
+                })
+            }
+        }
+    )
+}
+
 
 module.exports = {
     getAll,
     addContato,
     getPorNome,
-    getPorId
+    getPorId,
+    atualizaFone,
+    
     
 }
