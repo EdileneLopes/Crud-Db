@@ -1,4 +1,4 @@
-const { response } = require("express")
+const { response, request } = require("express")
 const contatosCollection = require('../models/contatosSchema')
 
 const getAll = (request, response) => {
@@ -32,8 +32,10 @@ const addContato = (request, response) => {
 }
 
 const getPorNome = (request, response) => {
-    const nome = request.params.nome
-    contatosCollection.find({ nome: nome }, (error, contato) => {
+    const nomeParam = request.params.nome
+    console.log('nome do param', nomeParam)
+    contatosCollection.find({ nome : nomeParam }, (error, contato) => {
+        console.log('esse é o nome dentro da função', nome)
         if (error) {
             return response.status(500).send(error)
         } else if (contato == "") {
@@ -55,65 +57,93 @@ const getPorId = (request, response) => {
             console.log('contato no else:', contato)
             return response.status(404).json({
                 mensagem: 'Contato não encontrado :('
-            })      //arrumar o erro quando não encontrado...
+          })     
         } else {
             return response.status(200).send(contato)
         }
     })
 }
 
-    const atualizaFone = (request, response) => {
+const atualizaFone = (request, response) => {
     const idParam = request.params.id
     const contatoBody = request.body.celular
     const novo = { new: true }   //fazendo update e não criando novo
 
     contatosCollection.findByIdAndUpdate(
         idParam,
-        {$set:{celular: contatoBody}},
-        novo, 
+        { $set: { celular: contatoBody } },
+        novo,
         (error, contato) => {
-        if (error) {
-            return response.status(500).send(error)
-        } else if (contato) {
-            return response.status(200).send({
-            mensagem: 'Telefone alterado com sucesso',
-            contato
-        })
-        } else {
-            return response.status(404).send({
-            mensagem: 'Ocorreu um erro, favor verificar telefone'   //não está dando certo a msg de erro...
-            
-        })
-    }
-})
-} 
-
-
-
-    const deleteContato = (request, response) => {
-        const idParam = request.params.id
-        contatosCollection.findByIdAndDelete(idParam, (error, contato) => {
             if (error) {
-                return response.status(500).json({
-                    mensagem: 'Contato não encontrado...não foi possível apagar.'
-                })
+                return response.status(500).send(error)
             } else if (contato) {
-                console.log(contato)
-                return response.status(200).send('O contatinho foi apagado com sucesso :(')
+                return response.status(200).send({
+                    mensagem: 'Telefone alterado com sucesso',
+                    contato
+                })
             } else {
+                return response.status(404).send({
+                    mensagem: 'Ocorreu um erro, favor verificar telefone'   //não está dando certo a msg de erro...
 
+                })
             }
         })
-    }
+}
+
+const atualizaContato = (request, response) => {         
+    const idParams = request.params.id
+    const contatoBody = request.body
+    const novo = { new: true } 
+
+    console.log('esse é o id linha 94: ', idParams)
+    console.log('o contato do body linha 95: ', contatoBody)
+
+    contatosCollection.findByIdAndUpdate(
+        idParams, 
+        contatoBody, 
+        novo, 
+        (error, contato) => {
+        console.log('id', idParams)
+        console.log('o contato:' , contato)
+
+        if(error){
+            return response.status(500).send(error)
+        } else {
+            return response.status(200).send({
+                mensagem: 'Contato alterado.',
+                contato
+            })
+        
+        }
+})
+}
+
+
+const deleteContato = (request, response) => {
+    const idParam = request.params.id
+    contatosCollection.findByIdAndDelete(idParam, (error, contato) => {
+        if (error) {
+            return response.status(500).json({
+                mensagem: 'Contato não encontrado...não foi possível apagar.'
+            })
+        } else if (contato) {
+            console.log(contato)
+            return response.status(200).send('O contatinho foi apagado com sucesso :(')
+        } else {
+
+        }
+    })
+}
 
 
 
-    module.exports = {
-        getAll,
-        addContato,
-        getPorNome,
-        getPorId,
-        atualizaFone,
-        deleteContato
+module.exports = {
+    getAll,
+    addContato,
+    getPorNome,
+    getPorId,
+    atualizaFone,
+    atualizaContato,
+    deleteContato
 
-    }
+}

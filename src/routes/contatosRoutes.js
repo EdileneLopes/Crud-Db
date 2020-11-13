@@ -17,7 +17,7 @@ router.get('/', controller.getAll)
 @access Public 
 @endpoint http://localhost:porta/contatos/criar
 **/
-router.post('/criar', controller.addContato)
+router.post('contatos/criar', controller.addContato)
 
 
 /**
@@ -27,7 +27,7 @@ router.post('/criar', controller.addContato)
 @access Public 
 @endpoint http://localhost:porta/contatos/nome/nome
 **/
-router.get('/nome/:nome', controller.getPorNome)
+router.get('contatos/nome/:nome', controller.getPorNome)
 
 /**
 @route GET contato
@@ -36,7 +36,7 @@ router.get('/nome/:nome', controller.getPorNome)
 @access Public 
 @endpoint http://localhost:porta/contatos/id/id
 **/
-router.get('/id/:id', controller.getPorId)
+router.get('contatos/id/:id', controller.getPorId)
 
 
 /**
@@ -46,7 +46,16 @@ router.get('/id/:id', controller.getPorId)
 @access Public 
 // @endpoint http://localhost:porta/contatos/atualizar/telefone/:id
 **/
-router.patch('/atualizar/telefone/:id', controller.atualizaFone)
+router.patch('contatos/atualizar/telefone/:id', controller.atualizaFone)
+
+/**
+@route PUT contato
+@param : id
+@desc Busca por id e atualiza o contato
+@access Public 
+// @endpoint http://localhost:porta/contatos/atualizar/:id
+**/
+router.put('contatos/atualizar/:id', controller.atualizaContato)
 
 /**
 @route DELETE contato
@@ -55,7 +64,7 @@ router.patch('/atualizar/telefone/:id', controller.atualizaFone)
 @access Public 
 @endpoint http://localhost:porta/contatos/deletar/id
 **/
-router.delete('/deletar/:id', controller.deleteContato)
+router.delete('contatos/deletar/:id', controller.deleteContato)
 
 
 
