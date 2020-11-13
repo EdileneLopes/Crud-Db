@@ -15,7 +15,7 @@ router.get('/', controller.getAll)
 @route POST contato
 @desc Cria um novo contato na lista
 @access Public 
-@endpoint http://localhost:porta/criar
+@endpoint http://localhost:porta/contatos/criar
 **/
 router.post('/criar', controller.addContato)
 
@@ -44,10 +44,18 @@ router.get('/id/:id', controller.getPorId)
 @param : id
 @desc Busca por id e atualiza o telefone do contato
 @access Public 
-@endpoint http://localhost:porta/contatos/atualizar/id
+// @endpoint http://localhost:porta/contatos/atualizar/telefone/:id
 **/
 router.patch('/atualizar/telefone/:id', controller.atualizaFone)
 
+/**
+@route DELETE contato
+@param : id
+@desc Busca por id e apaga o contato
+@access Public 
+@endpoint http://localhost:porta/contatos/deletar/id
+**/
+router.delete('/deletar/:id', controller.deleteContato)
 
 
 
